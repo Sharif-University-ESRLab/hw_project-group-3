@@ -26,9 +26,9 @@ while True:
     if data1[0:6] == b'$GPRMC':
 
         data2= None
-        while time.time() - current_time < 5:
+        while time.time() - current_time < 20:
             newdata = ser.readline()
-            if newdata[0:6] == b'$GPRMC' and time.time() - current_time > 1:
+            if newdata[0:6] == b'$GPRMC' and time.time() - current_time > 5:
                 data2 = newdata
                 break
 
@@ -38,7 +38,7 @@ while True:
 
         data1 = str(data1)[2:-5]
         data2 = str(data2)[2:-5]
-
+        print(data1, data2)
         msg1 = pynmea2.parse(data1)
         msg2 = pynmea2.parse(data2)
 
@@ -47,11 +47,11 @@ while True:
 
         lat2 = msg2.latitude
         lng2 = msg2.longitude
-
-        angle_from_north = np.arctan(np.sin((lng2 - lng1) / 2) / np.sin((lat2 -                                                                                                                                    lat1) / 2))
-
+        x = (lng2 - lng1) / (lat2 - lat1)
+        angle_from_north = np.arctan((lng2 - lng1) / (lat2 - lat1))
+        print(lat1, lng1, lat2, lng2, x, angle_from_north)
         date = datetime.now()
         sun_pos = get_position(date, lng2, lat2)
 
-        loc = "Latitude=" + str(lat2) + "and Longitude=" + str(lng2) + "\nAzimut                                                                                                                                   h=" + atr(sun_pos[azimuth]) + "Sun Angle=" + str(angle_from_north * 180 / no.pi                                                                                                                                    - sun_pos[azimuth])
+        loc = "Latitude=" + str(lat2) + "and Longitude=" + str(lng2) + "\nAzimuth=" + str(sun_pos['azimuth']) + ",Sun Angle=" + str(angle_from_north * 180 / np.pi - sun_pos['azimuth'])
         print(loc)
