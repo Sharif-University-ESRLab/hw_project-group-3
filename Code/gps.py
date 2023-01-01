@@ -59,28 +59,27 @@ def main():
 			print(loc)
 
 def manual_main():
-	curr_lat = 35.703129
-	curr_long = 51.351671
+    curr_lat = 35.703129
+    curr_long = 51.351671
 
-	while True:
-        start_lat, start_long, curr_lat, curr_long = get_coordinates_manual(curr_lat, curr_long)
+    while True:
+        start_lat, start_long, curr_lat, curr_long = get_coordinates_manual(curr_lat, curr_long, direction='N', step=0.001)
+        lat1 = start_lat
+        lng1 = start_long
 
-	    lat1 = start_lat
-		lng1 = start_long
+        lat2 = curr_lat
+        lng2 = curr_long
+        print(lat1, lng1, lat2, lng2)
+        x = (lng2 - lng1) / (lat2 - lat1)
+        angle_from_north = np.arctan((lng2 - lng1) / (lat2 - lat1))
+        print(lat1, lng1, lat2, lng2, x, angle_from_north)
+        date = datetime.now()
+        sun_pos = get_position(date, lng2, lat2)
+        
+        loc = "Latitude=" + str(lat2) + "and Longitude=" + str(lng2) + "\nAzimuth=" + str(sun_pos['azimuth']) + ",Sun Angle=" + str(angle_from_north * 180 / np.pi - sun_pos['azimuth'])
+        print(loc)
 
-		lat2 = curr_lat
-		lng2 = curr_long
-		x = (lng2 - lng1) / (lat2 - lat1)
-		angle_from_north = np.arctan((lng2 - lng1) / (lat2 - lat1))
-		print(lat1, lng1, lat2, lng2, x, angle_from_north)
-		date = datetime.now()
-		sun_pos = get_position(date, lng2, lat2)
-
-		loc = "Latitude=" + str(lat2) + "and Longitude=" + str(lng2) + "\nAzimuth=" + str(sun_pos['azimuth']) + ",Sun Angle=" + str(angle_from_north * 180 / np.pi - sun_pos['azimuth'])
-		print(loc)
-
-		time.sleep(5)
-
+        time.sleep(5)
 
 if __name__ == "__main__":
 	#main()

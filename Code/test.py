@@ -1,9 +1,7 @@
 
-def get_coordinates_manual(start_lat=35.703129, start_long=51.351671, direction='N'):
+def get_coordinates_manual(start_lat=35.703129, start_long=51.351671, direction='N', step=0.001):
     curr_latitude = start_lat
     curr_longitude = start_long
-
-    step = 0.001
 
     if direction == 'N':
         curr_latitude += step
