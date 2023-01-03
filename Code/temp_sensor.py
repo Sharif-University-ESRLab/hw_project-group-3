@@ -70,7 +70,6 @@ def check_all_temp():
 
 
 if __name__ == "__main__":
-    prep_leds()
     while True:
         check_all_temp()
         time.sleep(1)

@@ -6,6 +6,8 @@ import numpy as np
 from suncalc import get_position
 from datetime import datetime
 from test import get_coordinates_manual
+from led import prep_leds
+from temp_sensor import check_all_temp
 #import astropy.coordinates as coord
 #from astropy.time import Time
 #import astropy.units as u
@@ -57,6 +59,7 @@ def main():
 
 			loc = "Latitude=" + str(lat2) + "and Longitude=" + str(lng2) + "\nAzimuth=" + str(sun_pos['azimuth']) + ",Sun Angle=" + str(angle_from_north * 180 / np.pi - sun_pos['azimuth'])
 			print(loc)
+			
 
 def manual_main():
     curr_lat = 35.703129
@@ -79,8 +82,12 @@ def manual_main():
         loc = "Latitude=" + str(lat2) + "and Longitude=" + str(lng2) + "\nAzimuth=" + str(sun_pos['azimuth']) + ",Sun Angle=" + str(angle_from_north * 180 / np.pi - sun_pos['azimuth'])
         print(loc)
 
-        time.sleep(5)
+        check_all_temp()
+
+        time.sleep(1)
 
 if __name__ == "__main__":
+	prep_leds()
+
 	#main()
 	manual_main()
