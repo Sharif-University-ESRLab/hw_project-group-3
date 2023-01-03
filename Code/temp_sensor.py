@@ -61,7 +61,10 @@ def check_all_temp(exposed_sensor):
             hot_sensors_ids.append(i)
 
     for sensor_id in hot_sensors_ids:
-        turn_on_led(led_temp_sensor[sensor_id])
+        if sensor_id == exposed_sensor:
+            turn_on_led(led_temp_sensor[sensor_id])
+        else:
+            turn_off_led(led_temp_sensor[sensor_id])
 
     off_sensors = find_complement([0, 1, 2, 3], hot_sensors_ids)
 
