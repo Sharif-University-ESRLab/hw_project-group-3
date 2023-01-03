@@ -26,7 +26,7 @@ def prep_leds():
         GPIO.setup(pin, GPIO.OUT)
 
 def test_leds():
-    while True():
+    while True:
         turn_off_led(3)
         turn_on_led(0)
         time.sleep(1)

@@ -10,7 +10,7 @@ os.system('modprobe w1-therm')
 base_dir = '/sys/bus/w1/devices/'
 device_folders = glob.glob(base_dir + '28*')
 
-temp_threshold = 26
+temp_threshold = 24.5
 
 # temp_sensor_id: led_id 
 led_temp_sensor = {
@@ -46,15 +46,19 @@ def check_all_temp():
 
     mean, deviations = calc_sd(temps=temps)
     
-    deviations_tuples = [(d, temps[i], i) for i, d in enumerate(deviations)]
-    deviations_tuples.sort(key=lambda t: t[0], reverse=True)
+    #deviations_tuples = [(d, temps[i], i) for i, d in enumerate(deviations)]
+    #deviations_tuples.sort(key=lambda t: t[0], reverse=True)
 
     hot_sensors_ids = []
-    for (sd, temp, id) in deviations_tuples:
-        if temp > mean:
-            hot_sensors_ids.append(id)
-        else:
-            break
+    #for (sd, temp, id) in deviations_tuples:
+    #    if temp > mean and temp > temp_threshold:
+    #        hot_sensors_ids.append(id)
+    #    else:
+    #        break
+
+    for i, t in enumerate(temps):
+        if t  - mean >= 1:
+            hot_sensors_ids.append(i)
 
     for sensor_id in hot_sensors_ids:
         turn_on_led(led_temp_sensor[sensor_id])
