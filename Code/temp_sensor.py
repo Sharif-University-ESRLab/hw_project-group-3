@@ -41,7 +41,7 @@ def check_all_temp():
             temp_string = lines[1][equals_pos+2:]
             temp_c = float(temp_string) / 1000.0
             temp_f = temp_c * 9.0 / 5.0 + 32.0
-            temps.append((temp_c, i))
+            temps.append(temp_c)
             print("Sensor {} => {} (C) - {} (F)".format(i + 1, temp_c, temp_f))
 
     mean, deviations = calc_sd(temps=temps)
@@ -63,8 +63,6 @@ def check_all_temp():
 
     for sensor_id in off_sensors:
         turn_off_led(led_temp_sensor[sensor_id])
-
-
 
 
 if __name__ == "__main__":
