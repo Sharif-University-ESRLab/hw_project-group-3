@@ -3,10 +3,10 @@ import time
 
 
 led_id_pin = {
-    1: 5,
-    2: 6,
-    3: 13,
-    4: 19,
+    0: 5,
+    1: 6,
+    2: 13,
+    3: 19,
 }
 
 def turn_on_led(led_id):
@@ -28,20 +28,20 @@ def prep_leds():
 
 def test_leds():
     while True():
-        turn_off_led(4)
+        turn_off_led(3)
+        turn_on_led(0)
+        time.sleep(1)
+
+        turn_off_led(0)
         turn_on_led(1)
         time.sleep(1)
 
         turn_off_led(1)
         turn_on_led(2)
         time.sleep(1)
-
+        
         turn_off_led(2)
         turn_on_led(3)
-        time.sleep(1)
-        
-        turn_off_led(3)
-        turn_on_led(4)
         time.sleep(1)
 
 
