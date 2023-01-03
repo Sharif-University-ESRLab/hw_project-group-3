@@ -6,13 +6,12 @@ from math_functions import *
  
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
- 
+
+# directory which the data of sensors ar written in
 base_dir = '/sys/bus/w1/devices/'
 device_folders = glob.glob(base_dir + '28*')
 
-temp_threshold = 24.5
-
-# temp_sensor_id: led_id 
+# dictionary for mapping temp_sensor_id to led_id 
 led_temp_sensor = {
     0: 0,
     1: 1,
@@ -20,6 +19,7 @@ led_temp_sensor = {
     3: 3
 }
 
+# reads temperatures for each sensor
 def read_temp_raw(device_folder):
     device_file = device_folder + '/w1_slave'
 
@@ -28,7 +28,7 @@ def read_temp_raw(device_folder):
     f.close()
     return lines
 
-
+# checks the temperatures and turns on the cooler of needed for the exposed sensor
 def check_all_temp(exposed_sensor):
     temps = []
     for i, df in enumerate(device_folders):
@@ -44,35 +44,26 @@ def check_all_temp(exposed_sensor):
             temps.append(temp_c)
             print("Sensor {} => {} (C) - {} (F)".format(i, temp_c, temp_f))
 
+    # mean of all the temps
     mean, deviations = calc_sd(temps=temps)
-    
-    #deviations_tuples = [(d, temps[i], i) for i, d in enumerate(deviations)]
-    #deviations_tuples.sort(key=lambda t: t[0], reverse=True)
 
+    # id of the hot sensors which have a temperature at least 1 degree above mean
     hot_sensors_ids = []
-    #for (sd, temp, id) in deviations_tuples:
-    #    if temp > mean and temp > temp_threshold:
-    #        hot_sensors_ids.append(id)
-    #    else:
-    #        break
 
     for i, t in enumerate(temps):
-        if t  - mean >= 1:
+        if t - mean >= 1:
             hot_sensors_ids.append(i)
 
     for sensor_id in hot_sensors_ids:
         if sensor_id == exposed_sensor:
+            # turn on the exposed sensor if it is at least 1 degree hotter that the mean temperature
             turn_on_led(led_temp_sensor[sensor_id])
         else:
             turn_off_led(led_temp_sensor[sensor_id])
 
+    # sensors which have to be turned off
     off_sensors = find_complement([0, 1, 2, 3], hot_sensors_ids)
 
     for sensor_id in off_sensors:
         turn_off_led(led_temp_sensor[sensor_id])
 
-
-if __name__ == "__main__":
-    while True:
-        check_all_temp()
-        time.sleep(1)

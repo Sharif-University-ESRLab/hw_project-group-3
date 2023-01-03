@@ -1,3 +1,5 @@
+
+# function for calculating the mean and variance of tempretures
 def calc_sd(temps):
     n = len(temps)
     mean = sum(temps) / n
@@ -5,6 +7,7 @@ def calc_sd(temps):
 
     return mean, deviations
 
+# function for getting the complement of a sublist in a list
 def find_complement(l, sub_l):
     comp_l = []
     for item in l:
