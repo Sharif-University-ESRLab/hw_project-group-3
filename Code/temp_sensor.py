@@ -29,7 +29,7 @@ def read_temp_raw(device_folder):
     return lines
 
 
-def check_temp():
+def check_all_temp():
     temps = []
     for i, df in enumerate(device_folders):
         lines = read_temp_raw(df)
@@ -70,5 +70,5 @@ def check_temp():
 if __name__ == "__main__":
 
     while True:
-        check_temp()
+        check_all_temp()
         time.sleep(1)
