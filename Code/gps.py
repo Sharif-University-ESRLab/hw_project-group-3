@@ -4,7 +4,7 @@ import string
 import pynmea2
 import numpy as np
 from suncalc import get_position
-from datetime import datetime
+from datetime import datetime, timezone
 from test import get_coordinates_manual
 #import astropy.coordinates as coord
 #from astropy.time import Time
@@ -58,9 +58,14 @@ def main():
 			loc = "Latitude=" + str(lat2) + "and Longitude=" + str(lng2) + "\nAzimuth=" + str(sun_pos['azimuth']) + ",Sun Angle=" + str(angle_from_north * 180 / np.pi - sun_pos['azimuth'])
 			print(loc)
 
+
 def manual_main():
-    curr_lat = 35.703129
-    curr_long = 51.351671
+    # curr_lat = 35.703129
+    # curr_long = 51.351671
+
+    curr_lat = -31.44171
+    curr_long = 23.96012
+
 
     while True:
         start_lat, start_long, curr_lat, curr_long = get_coordinates_manual(curr_lat, curr_long, direction='N', step=0.001)
@@ -69,17 +74,18 @@ def manual_main():
 
         lat2 = curr_lat
         lng2 = curr_long
-        print(lat1, lng1, lat2, lng2)
-        x = (lng2 - lng1) / (lat2 - lat1)
-        angle_from_north = np.arctan((lng2 - lng1) / (lat2 - lat1))
-        print(lat1, lng1, lat2, lng2, x, angle_from_north)
-        date = datetime.now()
-        sun_pos = get_position(date, lng2, lat2)
-        
-        loc = "Latitude=" + str(lat2) + "and Longitude=" + str(lng2) + "\nAzimuth=" + str(sun_pos['azimuth']) + ",Sun Angle=" + str(angle_from_north * 180 / np.pi - sun_pos['azimuth'])
+        print(lat1, lng1, lat2, lng2, np.sin(lng2 - lng1), np.sin(lat2 - lat1))
+        angle_from_north = np.arctan2(np.sin(lng2 - lng1), np.sin(lat2 - lat1))
+        print(angle_from_north)
+        date = datetime.now(timezone.utc)
+        print(date)
+        sun_pos = get_position(date, lng1, lat1)
+        print(sun_pos)
+        loc = "Latitude=" + str(lat2) + "and Longitude=" + str(lng2) + "\nAzimuth=" + str(sun_pos['azimuth'] * 180 / np.pi) + ",Sun Angle=" + str(angle_from_north * 180 / np.pi - sun_pos['azimuth'])
         print(loc)
 
         time.sleep(5)
+
 
 if __name__ == "__main__":
 	#main()
