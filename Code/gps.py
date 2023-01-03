@@ -103,7 +103,7 @@ def manual_main():
         loc = "Latitude=" + str(lat2) + "and Longitude=" + str(lng2) + "\nAzimuth=" + str(sun_pos['azimuth'] * 180 / np.pi) + ",Sun Angle=" + str(angle_from_north * 180 / np.pi - sun_pos['azimuth'])
         print(loc)
 
-        check_all_temp()
+        check_all_temp(exposed_sensor)
 
         time.sleep(1)
 

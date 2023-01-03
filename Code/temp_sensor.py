@@ -29,7 +29,7 @@ def read_temp_raw(device_folder):
     return lines
 
 
-def check_all_temp():
+def check_all_temp(exposed_sensor):
     temps = []
     for i, df in enumerate(device_folders):
         lines = read_temp_raw(df)
@@ -42,7 +42,7 @@ def check_all_temp():
             temp_c = float(temp_string) / 1000.0
             temp_f = temp_c * 9.0 / 5.0 + 32.0
             temps.append(temp_c)
-            print("Sensor {} => {} (C) - {} (F)".format(i + 1, temp_c, temp_f))
+            print("Sensor {} => {} (C) - {} (F)".format(i, temp_c, temp_f))
 
     mean, deviations = calc_sd(temps=temps)
     
