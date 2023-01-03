@@ -82,7 +82,8 @@ if __name__ == "__main__":
     location = (-45.33670, -161.59734)
 # Fourth of July, 2022 at 11:20 am MDT (-6 hours)
     #when = (2022, 7, 4, 11, 20, 0, -6)
-    when = datetime.utcnow()
+    date = datetime.utcnow()
+    
     print(when)
 # Get the Sun's apparent location in the sky
     azimuth, elevation = sunpos(when, location, True)
