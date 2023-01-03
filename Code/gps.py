@@ -88,7 +88,7 @@ def manual_main():
         sun_pos = get_position(date, lng2, lat2)
         sun_angle = (sun_pos['azimuth'] - angle_from_north) % (2 * np.pi)
 
-        print(angle_from_north, sun_pos['azimuth'], sun_angle)
+        print("Movement Direction:", angle_from_north, ",Sun Azimuth:", sun_pos['azimuth'], ",Sun Angle:", sun_angle)
 
         if sun_angle < np.pi / 2:
             exposed_sensor = 2
@@ -100,8 +100,6 @@ def manual_main():
             exposed_sensor = 0
 
         print("Sensor", exposed_sensor, " is close to the Sun.")
-        loc = "Latitude=" + str(lat2) + "and Longitude=" + str(lng2) + "\nAzimuth=" + str(sun_pos['azimuth'] * 180 / np.pi) + ",Sun Angle=" + str(angle_from_north * 180 / np.pi - sun_pos['azimuth'])
-        print(loc)
 
         check_all_temp(exposed_sensor)
 
