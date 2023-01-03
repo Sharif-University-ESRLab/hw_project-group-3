@@ -23,7 +23,6 @@ def prep_leds():
     GPIO.setwarnings(False)
 
     for pin in led_id_pin.values():
-        print(pin)
         GPIO.setup(pin, GPIO.OUT)
 
 def test_leds():

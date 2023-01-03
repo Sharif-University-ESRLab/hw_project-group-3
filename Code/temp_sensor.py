@@ -59,7 +59,7 @@ def check_all_temp():
     for sensor_id in hot_sensors_ids:
         turn_on_led(led_temp_sensor[sensor_id])
 
-    off_sensors = find_complement(hot_sensors_ids)
+    off_sensors = find_complement([0, 1, 2, 3], hot_sensors_ids)
 
     for sensor_id in off_sensors:
         turn_off_led(led_temp_sensor[sensor_id])
